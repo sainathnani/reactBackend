@@ -64,6 +64,8 @@ public class ProductService {
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         if(userInfo.getEmail().endsWith("@nwmissouri.com")){
             userInfo.setRoles("ROLE_STUDENT");
+        } else if(userInfo.getEmail().endsWith("@admin.com")){
+            userInfo.setRoles("ROLE_ADMIN");
         } else {
             userInfo.setRoles("ROLE_USER");
         }

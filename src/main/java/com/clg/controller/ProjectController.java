@@ -1,5 +1,6 @@
 package com.clg.controller;
 
+import com.clg.entity.Blog;
 import com.clg.model.Project;
 import com.clg.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,11 @@ public class ProjectController {
             username = principal.toString();
         }
         return ResponseEntity.ok(projectService.getProjects(username));
+    }
+
+    @PostMapping("/update/{projectId}")
+    public ResponseEntity<Project> updateProject(@PathVariable Long projectId) {
+        Project updateProject = projectService.updateProject(projectId);
+        return ResponseEntity.ok(updateProject);
     }
 }

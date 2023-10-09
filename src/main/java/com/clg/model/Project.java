@@ -33,7 +33,7 @@ public class Project {
     private Date modifiedDate;
     @LastModifiedBy
     private String modifiedBy;
-    private String status = "Pending";
+    private String status;
 
 
 }
