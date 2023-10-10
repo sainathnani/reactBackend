@@ -37,10 +37,10 @@ public class ProjectService {
         return projectRepository.findProjectByCreatedBy(username);
     }
 
-    public Project updateProject(Long projectId) {
+    public Project updateProject(Long projectId, String action) {
         Optional<Project> existingProject = projectRepository.findById(projectId);
         Project updatedProject = existingProject.get();
-        updatedProject.setStatus("Approved");
+        updatedProject.setStatus(action.equalsIgnoreCase("APPROVED") ? "Approved": "Rejected");
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = null;
         if (principal instanceof UserDetails) {

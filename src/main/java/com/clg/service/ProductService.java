@@ -62,9 +62,9 @@ public class ProductService {
         }
         userInfo.setId(sequenceGeneratorService.generateSequence(UserInfo.SEQUENCE_NAME));
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-        if(userInfo.getEmail().endsWith("@nwmissouri.com")){
+        if(userInfo.getEmail().endsWith("@nwmissouri.edu")){
             userInfo.setRoles("ROLE_STUDENT");
-        } else if(userInfo.getEmail().endsWith("@admin.com")){
+        } else if(userInfo.getEmail().endsWith("@admin.edu")){
             userInfo.setRoles("ROLE_ADMIN");
         } else {
             userInfo.setRoles("ROLE_USER");

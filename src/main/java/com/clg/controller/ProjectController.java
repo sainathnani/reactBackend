@@ -48,9 +48,9 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjects(username));
     }
 
-    @PostMapping("/update/{projectId}")
-    public ResponseEntity<Project> updateProject(@PathVariable Long projectId) {
-        Project updateProject = projectService.updateProject(projectId);
+    @PostMapping("/update/{projectId}/{action}")
+    public ResponseEntity<Project> updateProject(@PathVariable Long projectId, @PathVariable  String action) {
+        Project updateProject = projectService.updateProject(projectId, action);
         return ResponseEntity.ok(updateProject);
     }
 }
