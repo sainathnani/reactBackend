@@ -2,14 +2,17 @@ package com.clg.controller;
 
 import com.clg.entity.Blog;
 import com.clg.model.Project;
+import com.clg.projections.ProjectProjection;
 import com.clg.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -36,16 +39,32 @@ public class ProjectController {
         return ResponseEntity.ok(createdProject);
     }
     @GetMapping("/getProjectsByName")
-    public ResponseEntity<List<Project>> getProjects() {
+    public ResponseEntity<List<Project>> getProjects(@RequestParam("username") String user) {
         log.info("In get Project");
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       /* Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = null;
         if (principal instanceof UserDetails) {
             username = ((UserDetails)principal).getUsername();
         } else {
             username = principal.toString();
+        }*/
+        return ResponseEntity.ok(projectService.getProjects(user));
+    }
+
+    @GetMapping("/searchProjects")
+    public ResponseEntity<List<ProjectProjection>> searchProjects(@RequestParam("title") String title) {
+        if(StringUtils.hasText(title)){
+            return ResponseEntity.ok(projectService.searchProjects(title));
         }
-        return ResponseEntity.ok(projectService.getProjects(username));
+        return ResponseEntity.badRequest().body(Collections.emptyList());
+    }
+
+    @GetMapping("/viewProject/:projectId")
+    public ResponseEntity<Project> getProjectById(@PathVariable("projectId") Long projectId) {
+        if(null != projectId){
+            return ResponseEntity.ok(projectService.getProjectById(projectId));
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 
     @PostMapping("/update/{projectId}/{action}")
@@ -53,4 +72,9 @@ public class ProjectController {
         Project updateProject = projectService.updateProject(projectId, action);
         return ResponseEntity.ok(updateProject);
     }
+    /*@PostMapping("/update/{projectId}/{action}")
+    public ResponseEntity<Project> likeDislikeProject(@PathVariable Long projectId, @PathVariable  String action) {
+        Project updateProject = projectService.updateProject(projectId, action);
+        return ResponseEntity.ok(updateProject);
+    }*/
 }

@@ -19,8 +19,8 @@ public class UserInfo {
     public static final String SEQUENCE_NAME = "user_sequence";
     @Id
     private Long id;
-    @Indexed(unique = true)
     private String name;
+    @Indexed(unique = true)
     private String email;
     private String address;
     private String mobile;

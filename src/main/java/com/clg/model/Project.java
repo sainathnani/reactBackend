@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Document("project")
 @Data
@@ -34,6 +36,11 @@ public class Project {
     @LastModifiedBy
     private String modifiedBy;
     private String status;
+    private Integer likes;
+    private Integer dislikes;
+    @Indexed
+    private List<String> categories;
+    private Integer comments;
 
 
 }

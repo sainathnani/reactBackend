@@ -3,6 +3,7 @@ package com.clg.service;
 import com.clg.entity.Blog;
 import com.clg.model.Profile;
 import com.clg.model.Project;
+import com.clg.projections.ProjectProjection;
 import com.clg.repository.ProfileRepository;
 import com.clg.repository.ProjectRepository;
 import com.clg.sequence.SequenceGeneratorService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -30,11 +32,21 @@ public class ProjectService {
 
     public List<Project> getProjects(String username) {
 
-        if(username.contains("admin")){
+        if(!StringUtils.hasText(username)){
            return projectRepository.findAll();
         }
 
         return projectRepository.findProjectByCreatedBy(username);
+    }
+
+    public List<ProjectProjection> searchProjects(String title) {
+
+        return projectRepository.findProjectsByTitleContainingIgnoreCaseOrCategoriesContainingIgnoreCase(title, List.of(title));
+    }
+
+    public Project getProjectById(Long projectId) {
+
+        return projectRepository.findById(projectId).orElse(null);
     }
 
     public Project updateProject(Long projectId, String action) {
