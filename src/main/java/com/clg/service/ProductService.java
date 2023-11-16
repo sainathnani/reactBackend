@@ -1,12 +1,12 @@
 package com.clg.service;
 
 import com.clg.dto.Product;
-import com.clg.entity.UserInfo;
+import com.clg.model.UserInfo;
 import com.clg.model.Profile;
-import com.clg.model.Project;
 import com.clg.repository.UserInfoRepository;
 import com.clg.sequence.SequenceGeneratorService;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
+@Slf4j
 public class ProductService {
 
     List<Product> productList = null;
@@ -30,6 +31,9 @@ public class ProductService {
 
     @Autowired
     SequenceGeneratorService sequenceGeneratorService;
+
+    @Autowired
+    ProfileService profileService;
 
     @PostConstruct
     public void loadProductsFromDB() {
@@ -56,21 +60,36 @@ public class ProductService {
 
 
     public String addUser(UserInfo userInfo) {
-        Optional<UserInfo> userinfomail =repository.findByEmail(userInfo.getEmail());
-        if(userinfomail.isPresent()){
+        Optional<UserInfo> userinfomail = repository.findByEmail(userInfo.getEmail());
+        if (userinfomail.isPresent()) {
             return "user already exists with the email ";
         }
         userInfo.setId(sequenceGeneratorService.generateSequence(UserInfo.SEQUENCE_NAME));
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-        if(userInfo.getEmail().endsWith("@nwmissouri.edu")){
+        if (userInfo.getEmail().endsWith("@nwmissouri.edu")) {
             userInfo.setRoles("ROLE_STUDENT");
-        } else if(userInfo.getEmail().endsWith("@admin.edu")){
+        } else if (userInfo.getEmail().endsWith("@admin.edu")) {
             userInfo.setRoles("ROLE_ADMIN");
         } else {
             userInfo.setRoles("ROLE_USER");
         }
+        createProfile(userInfo, userInfo.getEmail());
         repository.save(userInfo);
         return "user added to system ";
+    }
+
+    private void createProfile(UserInfo userInfo, String mailId) {
+
+        Profile profile = new Profile();
+
+        profile.setEmail(mailId);
+        profile.setUsername(mailId);
+        profile.setFirstName(userInfo.getFirstName());
+        profile.setLastName(userInfo.getLastName());
+        profile.setMobile(userInfo.getMobile());
+        profileService.createProfile(profile);
+        log.info("Profile Crated successfully");
+
     }
 
 

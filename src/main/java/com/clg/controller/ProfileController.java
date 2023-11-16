@@ -2,30 +2,31 @@ package com.clg.controller;
 
 import com.clg.model.Profile;
 import com.clg.service.ProfileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/profile")
+@Slf4j
 public class ProfileController {
     @Autowired
     ProfileService profileService;
 
     @PostMapping("/create")
     public ResponseEntity<Profile> createProfile(@RequestBody Profile newProfile) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = null;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        newProfile.setUsername(username);
+
         Profile createdProfile = profileService.createProfile(newProfile);
         return ResponseEntity.ok(createdProfile);
+    }
+
+    @GetMapping("/get/{username}")
+    public ResponseEntity<Profile> getProfile(@PathVariable String username) {
+
+        Profile existingProfile = profileService.getProfile(username);
+        log.info("Profile is{}", existingProfile);
+        return ResponseEntity.ok(existingProfile);
     }
 
     @PutMapping("/update/{username}")
@@ -35,14 +36,16 @@ public class ProfileController {
             return ResponseEntity.notFound().build();
         }
 
+        log.info("Existing profile is {}",existingProfile);
+
+        existingProfile.setFirstName(updatedProfile.getFirstName());
+        existingProfile.setLastName(updatedProfile.getLastName());
         existingProfile.setUserimagePath(updatedProfile.getUserimagePath());
         existingProfile.setDesignation(updatedProfile.getDesignation());
         existingProfile.setAddress(updatedProfile.getAddress());
         existingProfile.setEmail(updatedProfile.getEmail());
-        existingProfile.setContactNumber(updatedProfile.getContactNumber());
+        existingProfile.setMobile(updatedProfile.getMobile());
         existingProfile.setSkills(updatedProfile.getSkills());
-        existingProfile.setEducation(updatedProfile.getEducation());
-        existingProfile.setProjectHistory(updatedProfile.getProjectHistory());
 
         Profile updated = profileService.updateProfile(existingProfile);
         return ResponseEntity.ok(updated);

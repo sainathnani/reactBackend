@@ -40,7 +40,8 @@ public class Project {
     private Integer dislikes;
     @Indexed
     private List<String> categories;
-    private Integer comments;
+    private Integer commentsCount;
+    private List<Long> collaboratorsList;
 
 
 }

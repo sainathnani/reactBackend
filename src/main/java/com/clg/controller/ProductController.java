@@ -2,7 +2,7 @@ package com.clg.controller;
 
 import com.clg.dto.AuthRequest;
 import com.clg.dto.Product;
-import com.clg.entity.UserInfo;
+import com.clg.model.UserInfo;
 import com.clg.service.JwtService;
 import com.clg.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

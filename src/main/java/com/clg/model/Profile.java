@@ -1,8 +1,8 @@
 package com.clg.model;
 
 import java.util.List;
-import java.util.Map;
 
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Profile {
     @Transient
     public static final String SEQUENCE_NAME = "profile_sequence";
@@ -22,15 +23,18 @@ public class Profile {
     private Long id;
     @Indexed(unique = true)
     private String username;
+    private String firstName;
+    private String lastName;
     private String userimagePath;
     private String designation;
     private String address;
     private String email;
-    private String contactNumber;
-    private Map<String, Integer> skills;
+    private String mobile;
+    private String skills;
     private String[] languages;
     private List<Education> education;
     private List<Project> projectHistory;
+    private Long fileId;
 
 
     @Data

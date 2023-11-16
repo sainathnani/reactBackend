@@ -53,18 +53,25 @@ public class ProjectController {
 
     @GetMapping("/searchProjects")
     public ResponseEntity<List<ProjectProjection>> searchProjects(@RequestParam("title") String title) {
+        log.info(title);
         if(StringUtils.hasText(title)){
             return ResponseEntity.ok(projectService.searchProjects(title));
         }
         return ResponseEntity.badRequest().body(Collections.emptyList());
     }
 
-    @GetMapping("/viewProject/:projectId")
+    @GetMapping("/viewProject/{projectId}")
     public ResponseEntity<Project> getProjectById(@PathVariable("projectId") Long projectId) {
-        if(null != projectId){
-            return ResponseEntity.ok(projectService.getProjectById(projectId));
+        if(null == projectId){
+            return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.badRequest().body(null);
+        Project existingProject = projectService.getProjectById(projectId);
+
+        if( null == existingProject) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok().body(existingProject);
     }
 
     @PostMapping("/update/{projectId}/{action}")

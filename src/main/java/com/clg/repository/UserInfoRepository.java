@@ -1,6 +1,6 @@
 package com.clg.repository;
 
-import com.clg.entity.UserInfo;
+import com.clg.model.UserInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

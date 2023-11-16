@@ -9,6 +9,8 @@ public interface CommentRepository extends MongoRepository<Comments, Long> {
 
 
     List<Comments> findCommentsByProjectIdOrderByCommentedDateDesc(Long projectId);
+
+    List<Comments> findCommentsByProjectId(Long projectId);
 }
 
 

@@ -2,11 +2,8 @@ package com.clg.service;
 
 import com.clg.dto.PagableResponse;
 import com.clg.entity.Blog;
-import com.clg.entity.UserInfo;
-import com.clg.model.Profile;
 import com.clg.repository.BlogRepository;
 import com.clg.sequence.SequenceGeneratorService;
-import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,9 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

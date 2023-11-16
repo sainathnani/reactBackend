@@ -1,6 +1,6 @@
 package com.clg.config;
 
-import com.clg.entity.UserInfo;
+import com.clg.model.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

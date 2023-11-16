@@ -1,4 +1,4 @@
-package com.clg.entity;
+package com.clg.model;
 
 
 import lombok.AllArgsConstructor;

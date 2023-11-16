@@ -4,39 +4,58 @@ import com.clg.entity.Blog;
 import com.clg.model.Profile;
 import com.clg.model.Project;
 import com.clg.projections.ProjectProjection;
+import com.clg.repository.CommentRepository;
 import com.clg.repository.ProfileRepository;
 import com.clg.repository.ProjectRepository;
 import com.clg.sequence.SequenceGeneratorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ProjectService {
     @Autowired
     ProjectRepository projectRepository;
     @Autowired
     SequenceGeneratorService sequenceGeneratorService;
+    @Autowired
+    CommentRepository commentRepository;
 
     public Project createProject(Project project) {
-        project.setProjectId(sequenceGeneratorService.generateSequence(Project.SEQUENCE_NAME));
-        project.setStatus("Pending");
+        if(null == project.getProjectId()){
+            log.info("New Project");
+            project.setProjectId(sequenceGeneratorService.generateSequence(Project.SEQUENCE_NAME));
+            project.setStatus("Pending");
+        }
         return projectRepository.save(project);
     }
 
     public List<Project> getProjects(String username) {
 
+        List<Project> existingProjects = null;
+
         if(!StringUtils.hasText(username)){
-           return projectRepository.findAll();
+            existingProjects =  projectRepository.findAll();
+        } else {
+            existingProjects = projectRepository.findProjectByCreatedBy(username);
         }
 
-        return projectRepository.findProjectByCreatedBy(username);
+        for(Project existingProject : existingProjects) {
+            int commentsCount = commentRepository.findCommentsByProjectId(existingProject.getProjectId()).size();
+
+            existingProject.setCommentsCount(commentsCount);
+        }
+
+        return existingProjects;
     }
 
     public List<ProjectProjection> searchProjects(String title) {
@@ -46,7 +65,18 @@ public class ProjectService {
 
     public Project getProjectById(Long projectId) {
 
-        return projectRepository.findById(projectId).orElse(null);
+        Optional<Project> savedProject = projectRepository.findById(projectId);
+        Project existingProject = null;
+
+        if(savedProject.isPresent()){
+
+            int commentsCount = commentRepository.findCommentsByProjectId(projectId).size();
+
+            existingProject = savedProject.get();
+            existingProject.setCommentsCount(commentsCount);
+        }
+
+        return existingProject;
     }
 
     public Project updateProject(Long projectId, String action) {

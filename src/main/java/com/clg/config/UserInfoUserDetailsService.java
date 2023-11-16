@@ -1,6 +1,6 @@
 package com.clg.config;
 
-import com.clg.entity.UserInfo;
+import com.clg.model.UserInfo;
 import com.clg.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
