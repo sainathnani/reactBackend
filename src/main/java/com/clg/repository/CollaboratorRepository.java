@@ -10,7 +10,10 @@ import java.util.List;
 @Repository
 public interface CollaboratorRepository extends MongoRepository<Collaborators, Long> {
 
-    List<Collaborators> findCollaboratorsByProjectIdAndRequestedByUsernameAndRequestedForUsername(Long projectId, String requestedByUsername, String requestedForUsername);
+    List<Collaborators> findCollaboratorsByProjectIdAndRequestedByUsernameAndRequestedForUsername
+            (Long projectId, String requestedByUsername, String requestedForUsername);
+
+    List<Collaborators> findCollaboratorsByRequestedForUsernameAndStatus(String username, String status);
 }
 
 

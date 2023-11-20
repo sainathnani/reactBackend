@@ -26,6 +26,9 @@ public class Collaborators {
     private String requestedByUsername; // loggedInUser
     private String requestedForUsername; // project created user
     private Date createdDate = new Date();
+    private String createdBy;
+    private Date modifiedDate;
+    private String modifiedBy;
     private String status;
 
 }

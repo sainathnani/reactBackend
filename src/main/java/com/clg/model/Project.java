@@ -7,6 +7,7 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class Project {
     @Indexed
     private List<String> categories;
     private Integer commentsCount;
-    private List<Long> collaboratorsList;
+    private List<String> collaboratorsList = new ArrayList<>();
 
 
 }
