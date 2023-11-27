@@ -39,7 +39,7 @@ public class ProjectController {
         return ResponseEntity.ok(createdProject);
     }
     @GetMapping("/getProjectsByName")
-    public ResponseEntity<List<Project>> getProjects(@RequestParam("username") String user) {
+    public ResponseEntity<List<Project>> getProjects(@RequestParam(value = "username", required = false) String user, @RequestParam(value = "operator", required = false) String operator) {
         log.info("In get Project");
        /* Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = null;
@@ -48,7 +48,7 @@ public class ProjectController {
         } else {
             username = principal.toString();
         }*/
-        return ResponseEntity.ok(projectService.getProjects(user));
+        return ResponseEntity.ok(projectService.getProjects(user, operator));
     }
 
     @GetMapping("/searchProjects")

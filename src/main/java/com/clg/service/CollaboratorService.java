@@ -112,6 +112,11 @@ public class CollaboratorService {
 
                 projectRepository.save(project);
                 return collaborateDTO.getStatus();
+            } else if(collaborateDTO.getStatus().equalsIgnoreCase("Rejected")){
+                project.getCollaboratorsList().remove(collaborateDTO.getRequestedByUserName());
+
+                projectRepository.save(project);
+                return collaborateDTO.getStatus();
             }
 
             return collaborateDTO.getStatus();

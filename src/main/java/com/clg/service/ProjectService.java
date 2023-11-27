@@ -1,10 +1,12 @@
 package com.clg.service;
 
 import com.clg.entity.Blog;
+import com.clg.model.Like;
 import com.clg.model.Profile;
 import com.clg.model.Project;
 import com.clg.projections.ProjectProjection;
 import com.clg.repository.CommentRepository;
+import com.clg.repository.LikeRepository;
 import com.clg.repository.ProfileRepository;
 import com.clg.repository.ProjectRepository;
 import com.clg.sequence.SequenceGeneratorService;
@@ -29,6 +31,8 @@ public class ProjectService {
     SequenceGeneratorService sequenceGeneratorService;
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    LikeRepository likeRepository;
 
     public Project createProject(Project project) {
         if(null == project.getProjectId()){
@@ -39,18 +43,29 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public List<Project> getProjects(String username) {
+    public List<Project> getProjects(String username, String operator) {
 
         List<Project> existingProjects = null;
+        boolean getLikedUsers = true;
 
         if(!StringUtils.hasText(username)){
             existingProjects =  projectRepository.findAll();
+            getLikedUsers = false;
+        }else if(StringUtils.hasText(username) && operator != null && operator.equalsIgnoreCase("not")) {
+            existingProjects = projectRepository.findProjectByCreatedByIsNot(username);
         } else {
             existingProjects = projectRepository.findProjectByCreatedBy(username);
         }
 
         for(Project existingProject : existingProjects) {
             int commentsCount = commentRepository.findCommentsByProjectId(existingProject.getProjectId()).size();
+
+            if(getLikedUsers) {
+
+                Optional<Like> like = likeRepository.findLikeByLikedByUsernameAndProjectId(username, existingProject.getProjectId());
+
+                existingProject.setLikedByUser(like.isPresent());
+            }
 
             existingProject.setCommentsCount(commentsCount);
         }

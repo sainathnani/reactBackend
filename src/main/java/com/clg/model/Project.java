@@ -43,6 +43,7 @@ public class Project {
     private List<String> categories;
     private Integer commentsCount;
     private List<String> collaboratorsList = new ArrayList<>();
+    private boolean likedByUser;
 
 
 }

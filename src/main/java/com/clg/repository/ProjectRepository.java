@@ -11,6 +11,8 @@ public interface ProjectRepository extends MongoRepository<Project, Long> {
 
     List<Project> findProjectByCreatedBy(String createBy);
 
+    List<Project> findProjectByCreatedByIsNot(String createBy);
+
     List<ProjectProjection> findProjectsByTitleContainingIgnoreCaseOrCategoriesContainingIgnoreCase(String title, List<String> categories);
 
 }
