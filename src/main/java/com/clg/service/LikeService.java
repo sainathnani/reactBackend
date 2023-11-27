@@ -2,8 +2,6 @@ package com.clg.service;
 
 
 import com.clg.dto.like.LikeRequest;
-import com.clg.dto.like.LikeResponse;
-import com.clg.model.Collaborators;
 import com.clg.model.Like;
 import com.clg.model.Project;
 import com.clg.repository.LikeRepository;
