@@ -74,6 +74,7 @@ public class ProductService {
             userInfo.setRoles("ROLE_USER");
         }
         createProfile(userInfo, userInfo.getEmail());
+        userInfo.setStatus(true);
         repository.save(userInfo);
         return "user added to system ";
     }

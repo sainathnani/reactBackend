@@ -5,6 +5,7 @@ import com.clg.dto.Product;
 import com.clg.model.UserInfo;
 import com.clg.service.JwtService;
 import com.clg.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class ProductController {
 
     @Autowired
@@ -72,10 +74,12 @@ public class ProductController {
 
     @PostMapping("/authenticate")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+        log.info("In Authenticate");
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(authRequest.getUsername());
         } else {
+            log.error("In Authenticate failure");
             throw new UsernameNotFoundException("invalid user request !");
         }
 

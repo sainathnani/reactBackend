@@ -42,7 +42,8 @@ public class CollaboratorService {
         log.info("{}", collaboratorReq);
 
         List<Collaborators> existingCollaborators =
-                collaboratorRepository.findCollaboratorsByProjectIdAndRequestedByUsernameAndRequestedForUsername(collaboratorReq.getProjectId(), collaboratorReq.getRequestedByUsername(), collaboratorReq.getRequestedForUsername());
+                collaboratorRepository.findCollaboratorsByProjectIdAndRequestedByUsernameAndRequestedForUsernameAndStatus
+                        (collaboratorReq.getProjectId(), collaboratorReq.getRequestedByUsername(), collaboratorReq.getRequestedForUsername(), "Pending");
 
         if (!existingCollaborators.isEmpty()) {
             return null;
@@ -107,12 +108,12 @@ public class CollaboratorService {
 
             collaboratorRepository.save(collaborators);
 
-            if(collaborateDTO.getStatus().equalsIgnoreCase("Approved")){
+            if (collaborateDTO.getStatus().equalsIgnoreCase("Approved")) {
                 project.getCollaboratorsList().add(collaborateDTO.getRequestedByUserName());
 
                 projectRepository.save(project);
                 return collaborateDTO.getStatus();
-            } else if(collaborateDTO.getStatus().equalsIgnoreCase("Rejected")){
+            } else if (collaborateDTO.getStatus().equalsIgnoreCase("Rejected")) {
                 project.getCollaboratorsList().remove(collaborateDTO.getRequestedByUserName());
 
                 projectRepository.save(project);
@@ -128,7 +129,7 @@ public class CollaboratorService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = null;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }
