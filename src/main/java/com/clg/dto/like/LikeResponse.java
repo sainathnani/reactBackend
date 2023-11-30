@@ -2,6 +2,8 @@ package com.clg.dto.like;
 
 import com.clg.model.Project;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.Date;
 
@@ -11,9 +13,9 @@ public class LikeResponse {
     private String likedByUsername;
     private Long projectId;
     private Date createdDate;
-    private boolean isLiked;
+    private boolean likedByUser;
     private String likeStatus;
-    private Integer likeCount;
-    private Project project;
+    private Integer totalLikes;
+    private Integer totalDislikes;
 
 }

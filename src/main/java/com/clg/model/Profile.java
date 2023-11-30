@@ -34,7 +34,7 @@ public class Profile {
     private String[] languages;
     private List<Education> education;
     private List<Project> projectHistory;
-    private Long fileId;
+    private Long resumeId;
 
 
     @Data

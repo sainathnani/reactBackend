@@ -15,6 +15,10 @@ public interface ProjectRepository extends MongoRepository<Project, Long> {
 
     List<ProjectProjection> findProjectsByTitleContainingIgnoreCaseOrCategoriesContainingIgnoreCase(String title, List<String> categories);
 
+    List<Project> getAllByCollaboratorsListIsNotNullAndPrivacyLike(String privacy);
+
+    List<Project> getAllByLikesGreaterThan(Integer likes);
+
 }
 
 
