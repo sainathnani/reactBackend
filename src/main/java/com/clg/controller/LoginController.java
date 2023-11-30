@@ -1,15 +1,13 @@
 package com.clg.controller;
 
 import com.clg.dto.AuthRequest;
-import com.clg.dto.Product;
 import com.clg.model.UserInfo;
 import com.clg.service.JwtService;
-import com.clg.service.ProductService;
+import com.clg.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,15 +16,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/user")
 @Slf4j
-public class ProductController {
+public class LoginController {
 
     @Autowired
-    private ProductService service;
+    private LoginService service;
     @Autowired
     private JwtService jwtService;
 
@@ -56,19 +52,6 @@ public class ProductController {
             username = principal.toString();
         }
         return ResponseEntity.ok(service.fetchUser(username));
-    }
-
-
-    @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<Product> getAllTheProducts() {
-        return service.getProducts();
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    public Product getProductById(@PathVariable int id) {
-        return service.getProduct(id);
     }
 
 
