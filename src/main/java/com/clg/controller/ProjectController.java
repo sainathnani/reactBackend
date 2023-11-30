@@ -1,21 +1,16 @@
 package com.clg.controller;
 
-import com.clg.entity.Blog;
 import com.clg.model.Project;
-import com.clg.model.ProjectDTO;
 import com.clg.projections.ProjectProjection;
 import com.clg.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 

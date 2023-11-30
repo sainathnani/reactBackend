@@ -1,22 +1,21 @@
 package com.clg.service;
 
-import com.clg.entity.Blog;
-import com.clg.model.*;
+import com.clg.model.Dislike;
+import com.clg.model.Like;
+import com.clg.model.Project;
 import com.clg.projections.ProjectProjection;
-import com.clg.repository.*;
+import com.clg.repository.CommentRepository;
+import com.clg.repository.DislikeRepository;
+import com.clg.repository.LikeRepository;
+import com.clg.repository.ProjectRepository;
 import com.clg.sequence.SequenceGeneratorService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
