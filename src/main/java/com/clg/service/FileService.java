@@ -41,6 +41,8 @@ public class FileService {
             if(null != files){
                 files.setFile(
                         new Binary(BsonBinarySubType.BINARY, incomingFile.getBytes()));
+                files.setOriginalFileName(incomingFile.getOriginalFilename());
+                files.setContentType(incomingFile.getContentType());
                 files = fileRepository.save(files);
                 return files.getId();
             }
@@ -79,6 +81,8 @@ public class FileService {
             if(null != files){
                 files.setFile(
                         new Binary(BsonBinarySubType.BINARY, incomingFile.getBytes()));
+                files.setOriginalFileName(incomingFile.getOriginalFilename());
+                files.setContentType(incomingFile.getContentType());
                 files = fileRepository.save(files);
                 return files.getId();
             }
