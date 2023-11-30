@@ -21,12 +21,11 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/add")
-    public String addResume(@RequestParam("userName") String userName,
+    public Long addResume(@RequestParam("userName") String userName,
                             @RequestParam("file") MultipartFile file,
                             @RequestParam("fileType") String fileType)
             throws IOException {
-        Long id = fileService.addResume(userName, file, fileType);
-        return "Success";
+        return fileService.addResume(userName, file, fileType);
     }
 
     @GetMapping("/download/{fileId}")
@@ -38,5 +37,13 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(loadFile.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFile.getOriginalFileName() + "\"")
                 .body(new ByteArrayResource(loadFile.getFile().getData()));
+    }
+
+    @PostMapping("/addProjectFiles")
+    public Long addProjectFiles(@RequestParam("userName") String userName,
+                            @RequestParam("file") MultipartFile file,
+                            @RequestParam("projectId") Long projectId)
+            throws IOException {
+        return fileService.addProjectFiles(userName, file, "Project File", projectId);
     }
 }

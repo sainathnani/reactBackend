@@ -29,4 +29,6 @@ public class Files {
 
     private String fileType;
 
+    private Long projectId;
+
 }
